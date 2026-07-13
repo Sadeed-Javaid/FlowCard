@@ -1,11 +1,12 @@
 import { useDraggable } from '@dnd-kit/core';
 
-function Card({ id, text }) {
+function Card({ id, text, accent }) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
 
-  const style = transform
-    ? { transform: `translate(${transform.x}px, ${transform.y}px)` }
-    : undefined;
+  const style = {
+    borderLeftColor: accent,
+    ...(transform && { transform: `translate(${transform.x}px, ${transform.y}px)` }),
+  };
 
   return (
     <div
@@ -13,7 +14,7 @@ function Card({ id, text }) {
       style={style}
       {...listeners}
       {...attributes}
-      className="bg-white rounded-md shadow p-3 text-sm text-gray-800 cursor-grab"
+      className="bg-paper border-l-4 rounded-md shadow-sm p-3 text-sm text-ink font-body cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow"
     >
       {text}
     </div>
