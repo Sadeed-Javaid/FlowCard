@@ -15,20 +15,72 @@ const initialCards = {
 function App() {
   const [columns, setColumns] = useState(initialColumns);
   const [cards, setCards] = useState(initialCards);
+
+  const [newCardText, setNewCardText] = useState("");
+
+  function handleAddCard(){
+    if(newCardText.trim() === '') retunr ;
+
+    const id = String(Date.now());
+    const newCard = {id,text:newCardText};
+
+    setCards({ ...cards, [id]: newCard })
+
+    setColumns({
+      ...columns,
+      todo: {
+        ...columns.todo,cardIds: [ ...columns.todo.cardIds, id],
+      },
+    });
+
+    setNewCardText('');
+  }
+
   return (
-  <div className="flex gap-4 p-6 bg-gray-100 min-h-screen">
-    {Object.values(columns).map(column => (
-      <div key={column.id} className="bg-gray-200 rounded-lg p-3 w-64 flex flex-col gap-2">
-        <h2 className="font-semibold text-gray-700 mb-2">{column.title}</h2>
-        {column.cardIds.map(cardId => (
-          <div key={cardId} className="bg-white rounded-md shadow p-3 text-sm text-gray-800">
-            {cards[cardId].text}
-          </div>
-        ))}
+    <div>
+      <div className="flex gap-4 flex-col p-6 bg-red-500 min-h-screen">
+        
+        <div className="flex flex-col gap-4 max-w-[800px] " > 
+
+          <div className="bg-gray-200 rounded-lg p-3 flex flex-col gap-2" >
+
+          <input 
+          value={newCardText}
+          onChange={e=>setNewCardText(e.target.value)}
+          placeholder="Add New Task ......"
+          type="text" 
+          className="border rounded-lg px-2 py-1 text-sm"
+          />
+
+          <button onClick={handleAddCard} className="bg-blue-500 w-[200px] text-white text-sm rounded-lg py-1 hover:bg-blue-600" >Add Card</button>
+
+        </div>
+
+        <div className="flex gap-4 " >
+          {Object.values(columns).map((column) => (
+            <div
+              key={column.id}
+              className="bg-gray-200 rounded-lg p-3 w-64 flex flex-col gap-2"
+            >
+              <h2 className="font-semibold text-gray-700 mb-2">
+                {column.title}
+              </h2>
+              {column.cardIds.map((cardId) => (
+                <div
+                  key={cardId}
+                  className="bg-white rounded-md shadow p-3 text-sm text-gray-800"
+                >
+                  {cards[cardId].text}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        </div>
+
       </div>
-    ))}
-  </div>
-);
+    </div>
+  );
 }
 
 export default App;
