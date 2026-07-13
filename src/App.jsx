@@ -20,6 +20,39 @@ function App() {
 
   const [newCardText, setNewCardText] = useState("");
 
+
+  function handleDragEnd(event) {
+  const { active, over } = event;
+
+  if (!over) return; // dropped outside any valid column
+
+  const cardId = active.id;
+  const targetColumnId = over.id;
+
+  // Step 1: find which column currently holds this card
+  const sourceColumn = Object.values(columns).find(col =>
+    col.cardIds.includes(cardId)
+  );
+
+  if (!sourceColumn || sourceColumn.id === targetColumnId) return; // no-op
+
+  // Step 2 + 3: remove from source, add to target
+  setColumns({
+    ...columns,
+    [sourceColumn.id]: {
+      ...sourceColumn,
+      cardIds: sourceColumn.cardIds.filter(id => id !== cardId),
+    },
+    [targetColumnId]: {
+      ...columns[targetColumnId],
+      cardIds: [...columns[targetColumnId].cardIds, cardId],
+    },
+  });
+}
+
+
+
+
   function handleAddCard(){
     if(newCardText.trim() === '') retunr ;
 
@@ -40,7 +73,7 @@ function App() {
 
   return (
     <div>
-      <DndContext>
+      <DndContext onDragEnd={handleDragEnd}>
       <div className="flex gap-4 flex-col p-6 bg-red-500 min-h-screen">
         
         <div className="flex flex-col gap-4 max-w-[800px] " > 
@@ -62,6 +95,7 @@ function App() {
         <div className="flex gap-4 " >
           {Object.values(columns).map((column) => (
             <Column
+            id={column.id}
             key={column.id}
             title={column.title}
             cardIds={column.cardIds}
