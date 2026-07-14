@@ -189,7 +189,7 @@ function App() {
         <div className="max-w-6xl mx-auto px-6 py-20 relative">
           <div className="text-center mb-4">
             <span className="font-mono text-xs uppercase tracking-widest text-moss bg-moss/10 border border-moss/30 rounded-full px-3 py-1">
-              Your workspac
+              Your workspace
             </span>
             <h2 className="font-display text-4xl font-semibold text-ink mt-4">
               Today's board
