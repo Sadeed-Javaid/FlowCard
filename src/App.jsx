@@ -112,19 +112,36 @@ function App() {
       <Navbar />
       <Hero />
       <HowItWorks />
-      <div className="flex items-center gap-2 mb-10 max-w-md">
-        <input
+      <div className="bg-white rounded-2xl shadow-sm border border-ink/10 p-5 mb-10 max-w-xl">
+        <label className="font-mono text-xs uppercase tracking-wider text-ink/40">
+          New task
+        </label>
+
+        <textarea
           value={newCardText}
           onChange={(e) => setNewCardText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleAddCard();
+            }
+          }}
           placeholder="What needs doing?"
-          className="border border-ink/15 bg-white rounded-full px-4 py-2 text-sm font-body flex-1 focus:outline-none focus:ring-2 focus:ring-azure/40"
+          rows={3}
+          className="w-full mt-2 resize-none border-none bg-transparent text-ink font-body text-base leading-relaxed focus:outline-none placeholder:text-ink/30"
         />
-        <button
-          onClick={handleAddCard}
-          className="bg-ink text-paper font-mono text-xs uppercase tracking-wider rounded-full px-5 py-2.5 hover:opacity-90 transition"
-        >
-          Add
-        </button>
+
+        <div className="flex justify-between items-center mt-3 pt-3 border-t border-ink/10">
+          <span className="font-mono text-xs text-ink/30">
+            Enter to add · Shift+Enter for a new line
+          </span>
+          <button
+            onClick={handleAddCard}
+            className="bg-coral text-white font-mono text-xs uppercase tracking-wider rounded-full px-6 py-2.5 hover:opacity-90 active:scale-95 transition"
+          >
+            Add task
+          </button>
+        </div>
       </div>
 
       <DndContext onDragEnd={handleDragEnd}>
