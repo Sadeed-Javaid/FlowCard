@@ -1,4 +1,4 @@
-function Hero() {
+function Hero({ onStartTask }) {
   return (
     <section className="bg-paper">
       <div className="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
@@ -15,12 +15,12 @@ function Hero() {
             Write down what needs doing. Drag it to In Progress when you start.
             Drag it to Done when you finish. That's the whole app.
           </p>
-          <a
-            href="#board"
+          <button
+            onClick={onStartTask}
             className="inline-block mt-8 font-mono text-sm uppercase tracking-wider bg-ink text-paper px-6 py-3 rounded-full hover:opacity-90 transition"
           >
             Start a task ↓
-          </a>
+          </button>
         </div>
 
         <div className="relative h-72 flex items-center justify-center">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Column from "./components/Column";
 import { DndContext } from "@dnd-kit/core";
 import "./App.css";
@@ -28,6 +28,7 @@ function App() {
     return saved ? JSON.parse(saved) : initialCards;
   });
   const [newCardText, setNewCardText] = useState("");
+
 
   useEffect(() => {
     localStorage.setItem("columns", JSON.stringify(columns));
@@ -107,57 +108,71 @@ function App() {
     setNewCardText("");
   }
 
+   const taskInputRef = useRef(null);
+
+  function scrollToTaskInput() {
+    console.log('clicked', taskInputRef.current);
+    taskInputRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+    taskInputRef.current?.focus();
+  }
+
   return (
     <div>
       <Navbar />
-      <Hero />
+      <Hero onStartTask={scrollToTaskInput} />
       <HowItWorks />
-      <div className="bg-white rounded-2xl shadow-sm border border-ink/10 p-5 mb-10 max-w-xl">
-        <label className="font-mono text-xs uppercase tracking-wider text-ink/40">
-          New task
-        </label>
+      <div className="flex flex-col justify-center items-center">
+        <div className="bg-white rounded-2xl shadow-sm border border-ink/10 p-5 my-10 max-w-xl">
+          <label className="font-mono text-xs uppercase tracking-wider text-ink/40">
+            New task
+          </label>
 
-        <textarea
-          value={newCardText}
-          onChange={(e) => setNewCardText(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleAddCard();
-            }
-          }}
-          placeholder="What needs doing?"
-          rows={3}
-          className="w-full mt-2 resize-none border-none bg-transparent text-ink font-body text-base leading-relaxed focus:outline-none placeholder:text-ink/30"
-        />
+          <textarea
+            ref={taskInputRef}
+            value={newCardText}
+            onChange={(e) => setNewCardText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleAddCard();
+              }
+            }}
+            placeholder="What needs doing?"
+            rows={3}
+            className="w-full mt-2 resize-none border-none bg-transparent text-ink font-body text-base leading-relaxed focus:outline-none placeholder:text-ink/30"
+          />
 
-        <div className="flex justify-between items-center mt-3 pt-3 border-t border-ink/10">
-          <span className="font-mono text-xs text-ink/30">
-            Enter to add · Shift+Enter for a new line
-          </span>
-          <button
-            onClick={handleAddCard}
-            className="bg-coral text-white font-mono text-xs uppercase tracking-wider rounded-full px-6 py-2.5 hover:opacity-90 active:scale-95 transition"
-          >
-            Add task
-          </button>
+          <div className="flex justify-between items-center mt-3 gap-2 pt-3 border-t border-ink/10">
+            <span className="font-mono text-xs text-ink/30">
+              Enter to add · Shift+Enter for a new line
+            </span>
+            <button
+              onClick={handleAddCard}
+              className="bg-coral text-white font-mono text-xs uppercase tracking-wider rounded-full px-6 py-2.5 hover:opacity-90 active:scale-95 transition"
+            >
+              Add task
+            </button>
+          </div>
         </div>
+
+        <DndContext onDragEnd={handleDragEnd}>
+          <div className="flex gap-5 flex-wrap mb-10 ">
+            {Object.values(columns).map((column) => (
+              <Column
+                key={column.id}
+                id={column.id}
+                title={column.title}
+                cardIds={column.cardIds}
+                cards={cards}
+                onDeleteCard={handleDeleteCard}
+              />
+            ))}
+          </div>
+        </DndContext>
       </div>
-
-      <DndContext onDragEnd={handleDragEnd}>
-        <div className="flex gap-5 flex-wrap">
-          {Object.values(columns).map((column) => (
-            <Column
-              key={column.id}
-              id={column.id}
-              title={column.title}
-              cardIds={column.cardIds}
-              cards={cards}
-              onDeleteCard={handleDeleteCard}
-            />
-          ))}
-        </div>
-      </DndContext>
     </div>
   );
 }
