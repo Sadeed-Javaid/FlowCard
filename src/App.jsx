@@ -29,7 +29,6 @@ function App() {
   });
   const [newCardText, setNewCardText] = useState("");
 
-
   useEffect(() => {
     localStorage.setItem("columns", JSON.stringify(columns));
   }, [columns]);
@@ -108,20 +107,19 @@ function App() {
     setNewCardText("");
   }
 
-   const taskInputRef = useRef(null);
+  const taskInputRef = useRef(null);
 
   function scrollToTaskInput() {
-    console.log('clicked', taskInputRef.current);
     taskInputRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "center",
     });
-    taskInputRef.current?.focus();
+    taskInputRef.current?.focus({ preventScroll: true });
   }
 
   return (
     <div>
-      <Navbar />
+      <Navbar onStartTask={scrollToTaskInput} />
       <Hero onStartTask={scrollToTaskInput} />
       <HowItWorks />
       <div className="flex flex-col justify-center items-center">

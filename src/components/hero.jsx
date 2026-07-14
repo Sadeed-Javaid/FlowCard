@@ -17,10 +17,11 @@ function Hero({ onStartTask }) {
           </p>
           <button
             onClick={onStartTask}
-            className="inline-block mt-8 font-mono text-sm uppercase tracking-wider bg-ink text-paper px-6 py-3 rounded-full hover:opacity-90 transition"
+            className="inline-block mt-8 font-mono text-sm uppercase tracking-wider bg-ink text-paper px-6 py-3 rounded-full cursor-pointer hover:opacity-90 transition"
           >
             Start a task ↓
           </button>
+
         </div>
 
         <div className="relative h-72 flex items-center justify-center">
@@ -33,11 +34,34 @@ function Hero({ onStartTask }) {
               strokeWidth="2"
               strokeDasharray="6 8"
             />
-            <rect x="20" y="180" width="90" height="56" rx="8" fill="#17203A" fillOpacity="0.06" />
+            <rect
+              x="20"
+              y="180"
+              width="90"
+              height="56"
+              rx="8"
+              fill="#17203A"
+              fillOpacity="0.06"
+            />
             <g transform="translate(230,60) rotate(8)">
-              <rect width="100" height="62" rx="10" fill="white" stroke="#17203A" strokeOpacity="0.15" />
+              <rect
+                width="100"
+                height="62"
+                rx="10"
+                fill="white"
+                stroke="#17203A"
+                strokeOpacity="0.15"
+              />
               <rect x="14" y="16" width="60" height="8" rx="4" fill="#3E7CB1" />
-              <rect x="14" y="32" width="40" height="8" rx="4" fill="#17203A" fillOpacity="0.15" />
+              <rect
+                x="14"
+                y="32"
+                width="40"
+                height="8"
+                rx="4"
+                fill="#17203A"
+                fillOpacity="0.15"
+              />
             </g>
             <circle cx="280" cy="90" r="5" fill="#E4572E" />
           </svg>
