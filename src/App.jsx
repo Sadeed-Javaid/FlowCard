@@ -3,7 +3,7 @@ import Column from "./components/Column";
 import { DndContext } from "@dnd-kit/core";
 import "./App.css";
 import Navbar from "./components/navbar";
-import Hero from "./components/Hero";
+import Hero from "./components/hero";
 import HowItWorks from "./components/HowItWorks";
 
 const initialColumns = {
